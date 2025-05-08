@@ -1,0 +1,59 @@
+
+#include <iostream>
+#include <fstream>
+#include <vector>
+#include <string>
+#include <sstream>
+
+using namespace std;
+
+class Student {
+private:
+    string studentName;
+    int studentMarks;
+    string studentGrade;
+
+public:
+    Student(const string& name, int marks, const string& grade)
+        : studentName(name), studentMarks(marks), studentGrade(grade) {}
+
+    string getName() const { return studentName; }
+    int getMarks() const { return studentMarks; }
+    string getGrade() const { return studentGrade; }
+};
+
+int main() {
+    ifstream inputFile("students.txt");
+    vector<Student> studentList;
+
+    if (!inputFile) {
+        cerr << "Error: Unable to open file." << endl;
+        return 1;
+    }
+
+    string currentLine;
+
+    while (getline(inputFile, currentLine)) {
+        stringstream lineStream(currentLine);
+        string name, grade;
+        int marks;
+
+        lineStream >> name >> marks >> grade;
+
+        if (lineStream.fail()) {
+            cerr << "Error reading line: " << currentLine << endl;
+            continue;
+        }
+
+        studentList.push_back(Student(name, marks, grade));
+    }
+
+    inputFile.close();
+
+    cout << "Student Name   Marks   Grade" << endl;
+    for (const auto& student : studentList) {
+        cout << student.getName() << "   " << student.getMarks() << "   " << student.getGrade() << endl;
+    }
+ cout << "SMIT DAFDA_24CE021";
+    return 0;
+}

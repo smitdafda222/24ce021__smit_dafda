@@ -1,0 +1,74 @@
+
+#include <iostream>
+using namespace std;
+
+class DynamicArray {
+private:
+    int* dataArray;
+    int currentSize;
+    int currentCapacity;
+
+    void resizeArray() {
+        currentCapacity *= 2;
+        int* newArray = new int[currentCapacity];
+        
+        for (int i = 0; i < currentSize; i++) {
+            newArray[i] = dataArray[i];
+        }
+        
+        delete[] dataArray;
+        dataArray = newArray;
+    }
+
+public:
+    DynamicArray() : currentSize(0), currentCapacity(2) {
+        dataArray = new int[currentCapacity];
+    }
+
+    ~DynamicArray() {
+        delete[] dataArray;
+    }
+
+    void addElement(int newValue) {
+        if (currentSize == currentCapacity) resizeArray();
+        dataArray[currentSize++] = newValue;
+    }
+
+    void removeElement(int removeIndex) {
+        if (removeIndex >= 0 && removeIndex < currentSize) {
+            for (int i = removeIndex; i < currentSize - 1; i++) {
+                dataArray[i] = dataArray[i + 1];
+            }
+            currentSize--;
+        }
+    }
+
+    void displayElements() {
+        if (currentSize == 0) {
+            cout << "Array is empty.\n";
+            return;
+        }
+        for (int i = 0; i < currentSize; i++) {
+            cout << dataArray[i] << " ";
+        }
+        cout << endl;
+    }
+};
+
+int main() {
+    DynamicArray dynamicArr;
+
+    dynamicArr.addElement(10);
+    dynamicArr.addElement(20);
+    dynamicArr.addElement(30);
+    dynamicArr.addElement(40);
+
+    cout << "Array elements: ";
+    dynamicArr.displayElements();
+
+    dynamicArr.removeElement(2);
+    cout << "Array after removal: ";
+    dynamicArr.displayElements();
+cout << "24CEO21 SMIT DAFDA";
+    return 0;
+}

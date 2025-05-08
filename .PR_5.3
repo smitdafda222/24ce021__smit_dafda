@@ -1,0 +1,48 @@
+
+#include <iostream>
+using namespace std;
+
+class Coordinates {
+public:
+    int xCoord, yCoord;
+
+    void getCoordinates() {
+        cout << "Enter x and y coordinates (e.g., x y): ";
+        cin >> xCoord >> yCoord;
+    }
+
+    void operator+(Coordinates &c1) {
+        Coordinates result;
+        result.xCoord = xCoord + c1.xCoord;
+        result.yCoord = yCoord + c1.yCoord;
+        cout << "X coordinate after addition: " << result.xCoord << endl;
+        cout << "Y coordinate after addition: " << result.yCoord << endl;
+    }
+
+    void operator-(Coordinates &c1) {
+        Coordinates result;
+        result.xCoord = xCoord - c1.xCoord;
+        result.yCoord = yCoord - c1.yCoord;
+        cout << "X coordinate after subtraction: " << result.xCoord << endl;
+        cout << "Y coordinate after subtraction: " << result.yCoord << endl;
+    }
+
+    void operator==(Coordinates &c1) {
+        if (xCoord == c1.xCoord && yCoord == c1.yCoord)
+            cout << "The coordinates are equal." << endl;
+        else
+            cout << "The coordinates are not equal." << endl;
+    }
+};
+
+int main() {
+    Coordinates point1, point2;
+    point1.getCoordinates();
+    point2.getCoordinates();
+    
+    point1 + point2;
+    point1 - point2;
+    point1 == point2;
+cout << 24CE021_SMIT_DAFDA";
+    return 0;
+}

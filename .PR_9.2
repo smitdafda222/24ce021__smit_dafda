@@ -1,0 +1,84 @@
+
+#include <iostream>
+#include <vector>
+#include <string>
+#include <fstream>
+
+using namespace std;
+
+class BankAccount {
+private:
+    string ownerName;
+    double accountBalance;
+    vector<string> historyOfTransactions;
+
+public:
+    BankAccount(string customerName, double initialAmount = 0.0) 
+        : ownerName(customerName), accountBalance(initialAmount) {}
+
+    void makeDeposit(double depositAmount) {
+        if (depositAmount <= 0) {
+            recordTransaction("Deposit failed: Invalid amount.");
+            cout << "Deposit failed: Invalid amount." << endl;
+        } else {
+            accountBalance += depositAmount;
+            recordTransaction("Deposited: " + to_string(depositAmount));
+            cout << "Deposited: " << depositAmount << endl;
+        }
+    }
+
+    void makeWithdrawal(double withdrawalAmount) {
+        if (withdrawalAmount <= 0) {
+            recordTransaction("Withdrawal failed: Invalid amount.");
+            cout << "Withdrawal failed: Invalid amount." << endl;
+        } else if (withdrawalAmount > accountBalance) {
+            recordTransaction("Withdrawal failed: Insufficient funds.");
+            cout << "Withdrawal failed: Insufficient funds." << endl;
+        } else {
+            accountBalance -= withdrawalAmount;
+            recordTransaction("Withdrew: " + to_string(withdrawalAmount));
+            cout << "Withdrew: " << withdrawalAmount << endl;
+        }
+    }
+
+    void showBalance() {
+        cout << "Current Balance: " << accountBalance << endl;
+    }
+
+    void showTransactionHistory() {
+        cout << "Transaction History: " << endl;
+        for (const string& logEntry : historyOfTransactions) {
+            cout << logEntry << endl;
+        }
+    }
+
+private:
+    void recordTransaction(const string& transactionMessage) {
+        historyOfTransactions.push_back(transactionMessage);
+        ofstream transactionFile("transaction_log.txt", ios::app);
+        if (transactionFile.is_open()) {
+            transactionFile << ownerName << " - " << transactionMessage << endl;
+            transactionFile.close();
+        } else {
+            cout << "Error logging transaction." << endl;
+        }
+    }
+};
+
+int main() {
+    BankAccount userAccount("John Doe", 500.0);
+
+    userAccount.showBalance();
+    userAccount.makeDeposit(150.0);
+    userAccount.showBalance();
+
+    userAccount.makeWithdrawal(700.0);
+    userAccount.showBalance();
+
+    userAccount.makeWithdrawal(200.0);
+    userAccount.showBalance();
+
+    userAccount.showTransactionHistory();
+cout << "SMIT DAFDA 24CE021" << endl;
+    return 0;
+}

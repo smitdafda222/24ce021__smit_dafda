@@ -1,0 +1,51 @@
+5.1.   
+#include<iostream>
+using namespace std;
+
+class Calculator {
+public:
+    int AddNumbers(int num1, int num2) {
+        return num1 + num2;
+    }
+    
+    float AddNumbers(float num1, float num2) {
+        return num1 + num2;
+    }
+};
+
+int main() {
+    Calculator calc;
+    int choice;
+    int intNum1, intNum2, intResult;
+    float floatNum1, floatNum2, floatResult;
+
+    cout << "Enter 1 to add integers" << endl;
+    cout << "Enter 2 to add floating-point numbers" << endl;
+    cout << "Enter your choice: ";
+    cin >> choice;
+
+    switch (choice) {
+        case 1:
+            cout << "Enter first integer: ";
+            cin >> intNum1;
+            cout << "Enter second integer: ";
+            cin >> intNum2;
+            intResult = calc.AddNumbers(intNum1, intNum2);
+            cout << "Sum of two integers is: " << intResult << endl;
+            break;
+
+        case 2:
+            cout << "Enter first float: ";
+            cin >> floatNum1;
+            cout << "Enter second float: ";
+            cin >> floatNum2;
+            floatResult = calc.AddNumbers(floatNum1, floatNum2);
+            cout << "Sum of two floating-point numbers is: " << floatResult << endl;
+            break;
+
+        default:
+            cout << "INVALID CHOICE" << endl;
+    }
+  cout << "24CE021 SMIT DAFDA";
+    return 0;
+}

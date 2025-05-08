@@ -1,0 +1,85 @@
+
+#include<iostream>
+using namespace std;
+
+class Fahrenheit;
+
+class Celsius {
+    float temperature;
+public:
+    Celsius() : temperature(0) {}
+
+    Celsius(float t) : temperature(t) {}
+
+    float returnTemp() { return temperature; }
+
+    void operator=(Fahrenheit);
+
+    bool operator==(Fahrenheit);
+};
+
+class Fahrenheit {
+    float temperature;
+public:
+    Fahrenheit() : temperature(0) {}
+
+    Fahrenheit(float t) : temperature(t) {}
+
+    float returnTemp() { return temperature; }
+
+    void operator=(Celsius);
+
+    bool operator==(Celsius);
+};
+
+bool Celsius::operator==(Fahrenheit F) {
+    float temp = F.returnTemp();
+    temp = (temp - 32) * 5 / 9;
+    return temp == temperature;
+}
+
+void Celsius::operator=(Fahrenheit F) {
+    temperature = (F.returnTemp() - 32) * 5 / 9;
+}
+
+bool Fahrenheit::operator==(Celsius C) {
+    float temp = C.returnTemp();
+    temp = temp * 9 / 5 + 32;
+    return temp == temperature;
+}
+
+void Fahrenheit::operator=(Celsius C) {
+    temperature = C.returnTemp() * 9 / 5 + 32;
+}
+
+int main() {
+    int choice = 1;
+    float tempInput;
+    while (choice == 1) {
+        cout << "\n\n~-Temperature Comparator-~\n\nEnter Temperature in Celsius: ";
+        cin >> tempInput;
+        Celsius celsius(tempInput);
+
+        cout << "\nEnter Temperature in Fahrenheit: ";
+        cin >> tempInput;
+        Fahrenheit fahrenheit(tempInput);
+
+        Celsius celsiusCopy;
+        celsiusCopy = fahrenheit;
+        Fahrenheit fahrenheitCopy;
+        fahrenheitCopy = celsius;
+
+        cout << endl << fixed << celsius.returnTemp() << " °C in Fahrenheit is " << fahrenheitCopy.returnTemp() << " °F";
+        cout << endl << endl << fahrenheit.returnTemp() << " °F in Celsius is " << celsiusCopy.returnTemp() << " °C\n\nSo, ";
+
+        if (celsius == fahrenheit && fahrenheit == celsius)
+            cout << "Celsius temperature is the same as Fahrenheit temperature.";
+        else
+            cout << "Celsius temperature is not the same as Fahrenheit temperature.";
+
+        cout << "\nEnter 1 to check more else enter 0: ";
+        cin >> choice;
+    }
+cout << "\n24CE021_SMIT_DAFDA ";
+    return 0;
+}

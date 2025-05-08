@@ -1,0 +1,43 @@
+
+#include <iostream>
+#include <fstream>
+using namespace std;
+
+int main() {
+    char ch, prev = ' ';
+    int WordCount = 0, CharCount = 0, LineCount = 0;
+
+    // Open the file
+    ifstream file("Transactions.txt");
+    if (!file) {
+        cout << "Unable to open file!" << endl;
+        return 1;
+    }
+
+    // Process the file character by character
+    while (file.get(ch)) {
+        CharCount++;
+
+        if (ch == '\n') {
+            LineCount++;
+        }
+
+        // Check if a new word starts (after space, newline, or tab)
+        if ((prev == ' ' || prev == '\n' || prev == '\t') &&
+            (ch != ' ' && ch != '\n' && ch != '\t')) {
+            WordCount++;
+        }
+
+        prev = ch;  // Update the previous character
+    }
+
+    // Closing the file after reading
+    file.close();
+
+    // Output the results
+    cout << "Lines: " << LineCount << endl;
+    cout << "Words: " << WordCount << endl;
+    cout << "Characters: " << CharCount << endl;
+cout << "24CE021_SMIT DAFDA" << endl;
+    return 0;
+}

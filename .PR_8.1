@@ -1,0 +1,28 @@
+
+#include <iostream>
+#include <vector>
+#include <algorithm> // for reverse
+using namespace std;
+
+int main() {
+    int numElements;
+    cout << "Enter number of elements: ";
+    cin >> numElements;
+
+    vector<int> numbers(numElements);
+    cout << "Enter " << numElements << " integers:\n";
+    for (int i = 0; i < numElements; ++i) {
+        cin >> numbers[i];
+    }
+
+    // Use std::reverse with vector iterators
+    reverse(numbers.begin(), numbers.end());
+
+    cout << "Reversed sequence:\n";
+    for (int num : numbers) {
+        cout << num << " ";
+    }
+    cout <<"SMIT DAFDA_24CE021"<< endl;
+
+    return 0;
+}

@@ -1,0 +1,24 @@
+
+#include <iostream>
+using namespace std;
+
+class Parent {
+public:
+    virtual ~Parent() {
+        cout << "Parent Destructor\n";
+    }
+};
+
+class Child : public Parent {
+public:
+    ~Child() override {
+        cout << "Child Destructor\n";
+    }
+};
+
+int main() {
+    Parent* objectPtr = new Child();
+    delete objectPtr;
+    return 0;
+    cout << "24CE021_SMIT DAFDA";
+}

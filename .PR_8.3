@@ -1,0 +1,27 @@
+
+#include <iostream>
+#include <set>
+
+using namespace std;
+
+int main() {
+    int totalIDs, transactionID;
+    set<int> transactionIDSet;
+
+    cout << "Enter number of transaction IDs: ";
+    cin >> totalIDs;
+
+    cout << "Enter the transaction IDs:" << endl;
+    for (int index = 0; index < totalIDs; ++index) {
+        cin >> transactionID;
+        transactionIDSet.insert(transactionID);  // Automatically removes duplicates
+    }
+
+    cout << "Unique transaction IDs in sorted order:" << endl;
+    for (set<int>::iterator idIterator = transactionIDSet.begin(); idIterator != transactionIDSet.end(); ++idIterator) {
+        cout << *idIterator << " ";
+    }
+    cout << endl;
+cout<<"SMIT DAFDA_24CE021";
+    return 0;
+}

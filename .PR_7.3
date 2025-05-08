@@ -1,0 +1,228 @@
+
+#include <iostream>
+#include <fstream>
+#include <iomanip>
+#include <string>
+#include <sstream>
+using namespace std;
+
+const int MAX_PRODUCTS = 50;
+
+// Product Class
+class Product {
+    int productId;
+    string productName;
+    int stockQuantity;
+    int unitPrice;
+    int purchasedQuantity = 0;
+    int totalPrice = 0;
+
+public:
+    void addNewProduct() {
+        system("CLS");
+        cout << " ||--------- New Product Add Portal ---------||" << endl;
+        cout << "Enter Product ID: ";
+        cin >> productId;
+        cin.ignore();
+        cout << "Enter Product Name: ";
+        getline(cin, productName);
+        cout << "Enter Stock Quantity: ";
+        cin >> stockQuantity;
+        cout << "Enter Unit Price: ";
+        cin >> unitPrice;
+
+        ofstream outFile("inventory.txt", ios::app);
+        if (outFile.is_open()) {
+            outFile << productId << " : " << productName << " : "
+                    << stockQuantity << " : " << unitPrice << endl;
+            outFile.close();
+            cout << "Product added successfully!" << endl;
+        } else {
+            cout << "Error opening file!" << endl;
+        }
+    }
+
+    bool searchById(int id) {
+        return (id == productId);
+    }
+
+    void updateStock() {
+        if (stockQuantity == 0) {
+            cout << "Stock is currently zero. Cannot update!" << endl;
+            return;
+        }
+        system("CLS");
+        cout << " ||--------- Update Product Stock Portal ---------||" << endl;
+        int additionalQuantity;
+        cout << "Enter additional stock quantity: ";
+        cin >> additionalQuantity;
+        stockQuantity += additionalQuantity;
+    }
+
+    void displayStockDetails() {
+        cout << left << setw(15) << productId
+             << setw(15) << productName
+             << setw(15) << stockQuantity
+             << setw(15) << unitPrice << endl;
+    }
+
+    void purchaseProduct() {
+        if (stockQuantity > 0) {
+            purchasedQuantity++;
+            stockQuantity--;
+            totalPrice = unitPrice * purchasedQuantity;
+        } else {
+            cout << "Product is not available at present. Sorry for the inconvenience." << endl;
+        }
+    }
+
+    int getTotalPrice() {
+        return totalPrice;
+    }
+
+    void displayBill() {
+        if (purchasedQuantity > 0) {
+            cout << left << setw(15) << productId
+                 << setw(15) << productName
+                 << setw(15) << purchasedQuantity
+                 << setw(15) << totalPrice << endl;
+        }
+    }
+
+    void loadProductFromFile(ifstream &file) {
+        while (file) {
+            file >> productId;
+            file.ignore();
+            getline(file, productName);
+            file >> stockQuantity;
+            file >> unitPrice;
+            file.ignore();
+        }
+    }
+};
+
+void loadInventory(Product products[], int &productCount) {
+    ifstream file("inventory.txt");
+    if (file.is_open()) {
+        while (!file.eof() && productCount < MAX_PRODUCTS) {
+            products[productCount].loadProductFromFile(file);
+            productCount++;
+        }
+        file.close();
+    } else {
+        cout << "Unable to open inventory file!" << endl;
+    }
+}
+
+int main() {
+    int mainChoice, subChoice, productCount = 0, searchId, grandTotal = 0, billId = 1001;
+    char continueChoice;
+    Product products[MAX_PRODUCTS];
+
+    loadInventory(products, productCount);
+
+    do {
+        system("CLS");
+        cout << " ||--------- Welcome to VMart ---------||" << endl;
+        cout << "Press 1. Manage Stock" << endl;
+        cout << "Press 2. Purchase Item" << endl;
+        cout << "Press 0. Exit" << endl;
+        cout << "Enter your choice: ";
+        cin >> mainChoice;
+
+        switch (mainChoice) {
+        case 1:
+            do {
+                cout << "\n ||--------- Stock Management Portal ---------||" << endl;
+                cout << "Press 1. Add New Product" << endl;
+                cout << "Press 2. Update Stock Quantity" << endl;
+                cout << "Press 3. Display Stock Details" << endl;
+                cout << "Press 0. Back to Main Menu" << endl;
+                cout << "Enter your choice: ";
+                cin >> subChoice;
+
+                switch (subChoice) {
+                case 1:
+                    do {
+                        products[productCount].addNewProduct();
+                        productCount++;
+                        cout << "Do you want to add another item? (y/n): ";
+                        cin >> continueChoice;
+                    } while (continueChoice == 'y' || continueChoice == 'Y');
+                    break;
+                case 2:
+                    cout << "Enter Product ID to update stock: ";
+                    cin >> searchId;
+                    for (int i = 0; i < productCount; i++) {
+                        if (products[i].searchById(searchId)) {
+                            products[i].updateStock();
+                            break;
+                        }
+                    }
+                    break;
+                case 3:
+                    system("CLS");
+                    cout << " ||---------------- Stock Details ----------------||" << endl;
+                    cout << left << setw(15) << "Product ID"
+                         << setw(15) << "Name"
+                         << setw(15) << "Quantity"
+                         << setw(15) << "Price" << endl;
+                    for (int i = 0; i < productCount; i++) {
+                        products[i].displayStockDetails();
+                    }
+                    system("PAUSE");
+                    break;
+                }
+            } while (subChoice != 0);
+            break;
+
+        case 2:
+            do {
+                cout << "\n ||--------- Billing Portal ---------||" << endl;
+                cout << "Press 1. Buy Product" << endl;
+                cout << "Press 2. Display Bill Details" << endl;
+                cout << "Press 0. Back to Main Menu" << endl;
+                cout << "Enter your choice: ";
+                cin >> subChoice;
+
+                switch (subChoice) {
+                case 1:
+                    do {
+                        cout << "Enter Product ID to purchase: ";
+                        cin >> searchId;
+                        for (int i = 0; i < productCount; i++) {
+                            if (products[i].searchById(searchId)) {
+                                products[i].purchaseProduct();
+                                break;
+                            }
+                        }
+                        cout << "Do you want to buy another item? (y/n): ";
+                        cin >> continueChoice;
+                    } while (continueChoice == 'y' || continueChoice == 'Y');
+                    break;
+                case 2:
+                    system("CLS");
+                    cout << " ||---------------------- VMart ----------------------||" << endl;
+                    cout << "Bill ID: " << billId << endl;
+                    cout << left << setw(15) << "Product ID"
+                         << setw(15) << "Name"
+                         << setw(15) << "Quantity"
+                         << setw(15) << "Total Price" << endl;
+                    for (int i = 0; i < productCount; i++) {
+                        products[i].displayBill();
+                        grandTotal += products[i].getTotalPrice();
+                    }
+                    cout << "--------------------------------------------------------------" << endl;
+                    cout << left << setw(45) << "Grand Total: " << grandTotal << endl;
+                    cout << "   --x-- Thanks For Visiting --x--" << endl;
+                  
+                    system("PAUSE");
+                    break;
+                }
+            } while (subChoice != 0);
+            break;
+        }
+    } while (mainChoice != 0);
+    return 0;
+    
+}

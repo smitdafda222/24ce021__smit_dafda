@@ -1,0 +1,71 @@
+
+#include <iostream>
+#include <vector>
+#include <algorithm>
+
+using namespace std;
+
+class Student {
+private:
+    string studentName;
+    int studentScore;
+
+public:
+    Student(const string& nameInput, int scoreInput)
+        : studentName(nameInput), studentScore(scoreInput) {}
+
+    string getName() const {
+        return studentName;
+    }
+
+    int getScore() const {
+        return studentScore;
+    }
+
+    void setName(const string& nameInput) {
+        studentName = nameInput;
+    }
+
+    void setScore(int scoreInput) {
+        studentScore = scoreInput;
+    }
+};
+
+void inputStudentData(int totalStudents, vector<Student>& studentList) {
+    cout << "Enter student name and score:" << endl;
+    for (int i = 0; i < totalStudents; ++i) {
+        string name;
+        int score;
+        cin >> name >> score;
+        studentList.push_back(Student(name, score));
+    }
+}
+
+void displayRankedStudentList(const vector<Student>& studentList) {
+    cout << "Ranked list of students:" << endl;
+    int rankPosition = 1;
+    for (const auto& student : studentList) {
+        cout << rankPosition << ". " << student.getName()
+             << " - " << student.getScore() << endl;
+        ++rankPosition;
+    }
+}
+
+void sortStudentsDescending(vector<Student>& studentList) {
+    sort(studentList.begin(), studentList.end(), [](const Student& a, const Student& b) {
+        return a.getScore() > b.getScore();
+    });
+}
+
+int main() {
+    int studentCount;
+    cout << "Enter number of students: ";
+    cin >> studentCount;
+
+    vector<Student> studentList;
+    inputStudentData(studentCount, studentList);
+    sortStudentsDescending(studentList);
+    displayRankedStudentList(studentList);
+ cout << "24CE021_SMIT_DAFDA ";
+    return 0;
+}

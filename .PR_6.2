@@ -1,0 +1,31 @@
+
+#include <iostream>
+using namespace std;
+
+class Point {
+public:
+    int xCoord, yCoord;
+
+    Point(int xVal = 0, int yVal = 0) : xCoord(xVal), yCoord(yVal) {}
+
+    Point* move(int deltaX, int deltaY) {
+        xCoord += deltaX;
+        yCoord += deltaY;
+        return this;
+    }
+
+    void display() const {
+        cout << "Point(" << xCoord << ", " << yCoord << ")\n";
+    }
+};
+
+int main() {
+    Point point(5, 10);
+    point.display();
+
+    point.move(3, 4)->move(-2, 1)->move(5, -3);
+
+    point.display();
+cout << "24CE021_SMIT_DAFDA";
+    return 0;
+}
