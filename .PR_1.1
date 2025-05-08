@@ -1,0 +1,87 @@
+
+#include <iostream>
+using namespace std;
+
+class BankAccount
+{
+public:
+    string holderName;
+    int accountNumber, balance;
+
+    void deposit(int depositAmount)
+    {
+        if (depositAmount > 0)
+        {
+            balance += depositAmount;
+        }
+    }
+
+    void withdraw(int withdrawAmount)
+    {
+        if (withdrawAmount > 0 && withdrawAmount < balance)
+        {
+            balance -= withdrawAmount;
+        }
+        else if (withdrawAmount > balance)
+        {
+            cout << "Not enough balance!" << endl;
+        }
+    }
+
+    void displayBalance()
+    {
+        cout << "Current Balance: " << balance;
+    }
+};
+
+int main()
+{
+    BankAccount account;
+    account.balance = 10000;
+    int transactionAmount;
+    int userChoice;
+
+    cout << "Enter your name: ";
+    cin >> account.holderName;
+    cout << "Enter your account number: ";
+    cin >> account.accountNumber;
+
+    cout << "For DEPOSIT Enter 1" << endl
+         << "For WITHDRAW Enter 2" << endl
+         << "For CHECKING CURRENT BALANCE Enter 3" << endl
+         << "For EXIT Enter 4" << endl;
+
+    do
+    {
+        cout << endl;
+        cout << "Enter your choice: ";
+        cin >> userChoice;
+
+        switch (userChoice)
+        {
+        case 1:
+            cout << "Enter amount for Deposit: ";
+            cin >> transactionAmount;
+            account.deposit(transactionAmount);
+            break;
+        case 2:
+            cout << "Enter amount for Withdraw: ";
+            cin >> transactionAmount;
+            account.withdraw(transactionAmount);
+            break;
+        case 3:
+            account.displayBalance();
+            break;
+        case 4:
+            cout << "\nThank you!" << endl;
+            break;
+        default:
+            cout << "Enter valid choice!" << endl;
+        }
+    } while (userChoice != 4);
+
+    cout << "\nName: SMIT_DAFDA" << endl
+         << "ID: 24CE021";
+
+    return 0;
+}
